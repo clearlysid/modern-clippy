@@ -1,18 +1,47 @@
 import type { Configuration } from 'webpack';
+import type { ModuleOptions } from 'webpack';
 
-import { rules } from './webpack.rules';
+export const rules: Required<ModuleOptions>['rules'] = [
+  {
+    test: /native_modules[/\\].+\.node$/,
+    use: 'node-loader',
+  },
+  {
+    test: /[/\\]node_modules[/\\].+\.(m?js|node)$/,
+    parser: { amd: false },
+    use: {
+      loader: '@vercel/webpack-asset-relocator-loader',
+      options: {
+        outputAssetBase: 'native_modules',
+      },
+    },
+  },
+  {
+    test: /\.tsx?$/,
+    exclude: /(node_modules|\.webpack)/,
+    use: {
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+      },
+    },
+  },
+  {
+    test: /\.(png|jp(e*)g|svg|gif)$/,
+    type: 'asset/resource',
+    generator: {
+      filename: '[hash][name][ext]'
+    }     
+  }
+]
 
 export const mainConfig: Configuration = {
-  /**
-   * This is the main entry point for your application, it's the first file
-   * that runs in the main process.
-   */
-  entry: './src/index.ts',
+  entry: './src/main/index.ts',
   // Put your normal webpack config below here
   module: {
-    rules,
+    rules
   },
   resolve: {
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
   },
 };

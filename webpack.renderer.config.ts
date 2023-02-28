@@ -1,19 +1,20 @@
 import type { Configuration } from 'webpack';
+import { rules } from './webpack.main.config';
+import type IForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import { rules } from './webpack.rules';
-import { plugins } from './webpack.plugins';
-
-rules.push({
-  test: /\.css$/,
-  use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
-});
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const ForkTsCheckerWebpackPlugin: typeof IForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 export const rendererConfig: Configuration = {
   module: {
-    rules,
+    rules
   },
-  plugins,
+  plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      logger: 'webpack-infrastructure',
+    }),
+  ],
   resolve: {
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
+    extensions: ['.js', '.ts', '.jsx', '.tsx'],
   },
 };
