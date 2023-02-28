@@ -22,26 +22,15 @@ async function getResponseFromBing(query: string) {
 app.on('ready', () => {
 
    const mainWindow = new BrowserWindow({
-    height: 600,
     width: 800,
+    height: 600,
+    resizable: false,
+    minimizable: false,
+    maximizable: false,
+    frame: false,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
-  // and load the index.html of the app.
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
-});
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
 });
