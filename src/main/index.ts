@@ -11,13 +11,11 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-async function getResponseFromBing() {
+async function getResponseFromBing(query: string) {
   const api = new BingChat({
     cookie: process.env.BING_COOKIE
   })
-
-  const res = await api.sendMessage('Who is ben 10?')
-
+  const res = await api.sendMessage(query)
   return res.text
 }
 
