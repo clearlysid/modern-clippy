@@ -37,7 +37,7 @@ const App = () => {
 			<div style={{
 				height: '100%'
 			}}>
-				<h1>Cortana X</h1>
+				<h1>Modern Clippy</h1>
 			</div>
 			<Form onSubmit={handleFormSubmit} />
 		</div>

@@ -1,3 +1,3 @@
-# Cortana X
+# Modern Clippy
 
-How Cortana was meant to be.
+Not the Clippy we needed, but the Clippy we deserve.

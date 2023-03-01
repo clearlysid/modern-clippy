@@ -5,7 +5,7 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 export const createMainWindow = () => {
 	const mainWindow = new BrowserWindow({
-		title: "Cortana X",
+		title: "Modern Clippy",
 		width: 800,
 		height: 600,
 		show: false,

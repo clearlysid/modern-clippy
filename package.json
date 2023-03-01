@@ -1,8 +1,8 @@
 {
-  "name": "cortana-x",
-  "productName": "cortana-x",
+  "name": "modern-clippy",
+  "productName": "Modern Clippy",
   "version": "1.0.0",
-  "description": "Menubar app powered by the new Bing AI Search",
+  "description": "The work assistant,now powered by the new Bing AI Search",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
