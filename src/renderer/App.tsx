@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import Form from "./components/Form";
+import { styled } from "@dank-style/react"
 
 const App = () => {
 
@@ -15,7 +16,6 @@ const App = () => {
 	}
 
 	useEffect(() => {
-
 		// @ts-expect-error
 		if (window.api.askBing) {
 			// @ts-expect-error
