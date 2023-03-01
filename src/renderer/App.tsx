@@ -18,7 +18,6 @@ const App = () => {
 
 		// @ts-expect-error
 		if (window.api.askBing) {
-			console.log(`bing is available`)
 			// @ts-expect-error
 			askBing.current = window.api.askBing
 		}
@@ -36,18 +35,9 @@ const App = () => {
 			background: "#f5f5f5"
 		}}>
 			<div style={{
-				padding: 24,
-				width: "100%",
-				height: 30,
-				background: '#bebebe',
-				// @ts-expect-error
-				WebkitAppRegion: 'drag',
-				cursor: 'grab',
-			}} />
-			<div style={{
 				height: '100%'
 			}}>
-				<h1>Hey Cortana</h1>
+				<h1>Cortana X</h1>
 			</div>
 			<Form onSubmit={handleFormSubmit} />
 		</div>
