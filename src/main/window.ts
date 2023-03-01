@@ -9,7 +9,7 @@ export const createMainWindow = () => {
 		width: 800,
 		height: 600,
 		show: false,
-		center: true,
+		// center: true,
 		alwaysOnTop: true,
 		resizable: false,
 		minimizable: false,
@@ -17,11 +17,15 @@ export const createMainWindow = () => {
 		fullscreenable: false,
 		hiddenInMissionControl: true,
 		skipTaskbar: true,
+		acceptFirstMouse: true,
 		titleBarStyle: 'hiddenInset',
+		vibrancy: 'ultra-dark',
 		webPreferences: {
 			preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
 		},
 	});
+
+	mainWindow.removeMenu();
 	mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
 	return mainWindow
