@@ -25,8 +25,6 @@ app.on('ready', () => {
   globalShortcut.register('CommandOrControl+Shift+6', () => toggleWindow())
 
   mainWindow.on('blur', () => mainWindow.hide())
-  mainWindow.on('show', () => console.log("focus the chat input"))
-
 });
 
 

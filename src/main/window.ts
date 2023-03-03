@@ -7,7 +7,7 @@ export const createMainWindow = () => {
 	const mainWindow = new BrowserWindow({
 		title: "Modern Clippy",
 		width: 800,
-		height: 600,
+		height: 400,
 		show: false,
 		// center: true,
 		alwaysOnTop: true,
@@ -15,11 +15,10 @@ export const createMainWindow = () => {
 		minimizable: false,
 		maximizable: false,
 		fullscreenable: false,
-		hiddenInMissionControl: true,
 		skipTaskbar: true,
-		acceptFirstMouse: true,
 		titleBarStyle: 'hiddenInset',
 		vibrancy: 'ultra-dark',
+		trafficLightPosition: { x: 24, y: 24 },
 		webPreferences: {
 			preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
 		},
