@@ -1,12 +1,6 @@
 import styled from "@emotion/styled"
 import { motion } from "framer-motion";
 
-const MessageText = styled.p({
-	color: "white",
-	fontSize: 15,
-	lineHeight: 1.5,
-})
-
 export default function Text({
 	type,
 	data,
@@ -17,7 +11,8 @@ export default function Text({
 	let incoming = type === "incoming" ? true : false
 
 	if (typeof data !== "string" && type === "incoming") {
-		text = data.text
+		const parsedText = data.text.replace(/Bing/g, "Clippy")
+		text = parsedText
 	} else {
 		text = data
 	}
@@ -34,6 +29,7 @@ export default function Text({
 			width: 'fit-content',
 			marginLeft: incoming ? 'auto' : 0,
 			background: incoming ? '#3164ff' : '#000000',
+			boxShadow: '0px 4px 24px rgba(0, 0, 0, 0.4)',
 		}}
 		initial={{ opacity: 0, scale: 0.8, y: 100, x: incoming ? 20 : -20 }}
 		animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
@@ -45,8 +41,12 @@ export default function Text({
 			}
 		}}
 	>
-		<MessageText>
+		<p style={{
+			color: "white",
+			fontSize: 17,
+			lineHeight: 1.5,
+		}}>
 			{text}
-		</MessageText>
+		</p>
 	</motion.div>
 }
