@@ -13,53 +13,53 @@ const App = () => {
 
 	const askBing = useRef(null)
 
-	const initialMessages: ChatMessage[] =
-		[
-			{
-				type: "outgoing",
-				data: "how tall is the eiffel tower"
-			},
-			{
-				type: "incoming",
-				data: Sample[0]
-			},
-			{
-				type: "outgoing",
-				data: "how tall is the eiffel tower"
-			},
-			{
-				type: "incoming",
-				data: Sample[0]
-			},
-			{
-				type: "outgoing",
-				data: "how tall is the eiffel tower"
-			},
-			{
-				type: "incoming",
-				data: Sample[0]
-			},
-			{
-				type: "outgoing",
-				data: "how tall is the eiffel tower"
-			},
-			{
-				type: "incoming",
-				data: Sample[0]
-			},
-			{
-				type: "outgoing",
-				data: "how tall is the eiffel tower"
-			},
-			{
-				type: "incoming",
-				data: Sample[0]
-			},
-			{
-				type: "outgoing",
-				data: "how tall is the eiffel tower"
-			},
-		]
+	const initialMessages: ChatMessage[] = []
+	// [
+	// 	{
+	// 		type: "outgoing",
+	// 		data: "how tall is the eiffel tower"
+	// 	},
+	// 	{
+	// 		type: "incoming",
+	// 		data: Sample[0]
+	// 	},
+	// 	{
+	// 		type: "outgoing",
+	// 		data: "how tall is the eiffel tower"
+	// 	},
+	// 	{
+	// 		type: "incoming",
+	// 		data: Sample[0]
+	// 	},
+	// 	{
+	// 		type: "outgoing",
+	// 		data: "how tall is the eiffel tower"
+	// 	},
+	// 	{
+	// 		type: "incoming",
+	// 		data: Sample[0]
+	// 	},
+	// 	{
+	// 		type: "outgoing",
+	// 		data: "how tall is the eiffel tower"
+	// 	},
+	// 	{
+	// 		type: "incoming",
+	// 		data: Sample[0]
+	// 	},
+	// 	{
+	// 		type: "outgoing",
+	// 		data: "how tall is the eiffel tower"
+	// 	},
+	// 	{
+	// 		type: "incoming",
+	// 		data: Sample[0]
+	// 	},
+	// 	{
+	// 		type: "outgoing",
+	// 		data: "how tall is the eiffel tower"
+	// 	},
+	// ]
 
 	const [thinking, setThinking] = useState<boolean>(false)
 	const [lastChat, setLastChat] = useState<BingResponse | null>(null)
