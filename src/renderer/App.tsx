@@ -5,6 +5,7 @@ import { Info, Settings } from "react-feather";
 import Form from "./components/Form";
 import Text from "./components/Text";
 import Sample from './components/sample.json'
+import type { ChatMessage } from "./types";
 
 const Container = styled.div({
 	padding: 24,
@@ -18,7 +19,7 @@ const Container = styled.div({
 const App = () => {
 
 	const askBing = useRef(null)
-	const [chat, setChat] = useState<{ type: 'incoming' | 'outgoing', data: {} | string }[]>([
+	const [chat, setChat] = useState<ChatMessage[]>([
 		{
 			type: "outgoing",
 			data: "how tall is the eiffel tower"
@@ -43,8 +44,6 @@ const App = () => {
 	const [thinking, setThinking] = useState(false)
 
 	const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-
 		// don't proceed if response is pending
 		if (thinking) return
 
