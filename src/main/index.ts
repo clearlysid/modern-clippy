@@ -21,10 +21,12 @@ app.on('ready', () => {
 
   const trayIcon = new Tray("assets/ClippyIconTemplate.png")
   trayIcon.addListener('click', () => toggleWindow())
+  trayIcon.addListener('right-click', () => app.quit())
 
   globalShortcut.register('CommandOrControl+Shift+6', () => toggleWindow())
+  globalShortcut.register('CommandOrControl+Shift+7', () => app.quit())
 
-  mainWindow.on('blur', () => mainWindow.hide())
+  // mainWindow.on('blur', () => mainWindow.hide())
 });
 
 

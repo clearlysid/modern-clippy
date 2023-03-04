@@ -12,6 +12,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
     "paths": {
       "*": ["node_modules/*"]
     }
