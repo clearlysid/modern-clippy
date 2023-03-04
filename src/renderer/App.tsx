@@ -1,52 +1,69 @@
 import React, { useRef, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import styled from "@emotion/styled"
-import { Info, Settings, RefreshCw } from "react-feather";
+
+import Menu from "./components/Menu";
 import Form from "./components/Form";
 import Chat from "./components/Chat";
 import Sample from "./components/sample.json";
-import type { ChatMessage } from "./types";
 
-const Container = styled.div({
-	padding: 24,
-	rowGap: 8,
-	width: "100%",
-	height: "100%",
-	display: "flex",
-	flexDirection: "column",
-})
+import type { ChatMessage } from "./types";
+import type { BingResponse } from "./types";
 
 const App = () => {
 
 	const askBing = useRef(null)
 
-	const initialMessages: ChatMessage[] = []
-	// [
-	// 	{
-	// 		type: "outgoing",
-	// 		data: "how tall is the eiffel tower"
-	// 	},
-	// 	{
-	// 		type: "incoming",
-	// 		data: Sample[0]
-	// 	},
-	// 	{
-	// 		type: "outgoing",
-	// 		data: "how tall is the eiffel tower"
-	// 	},
-	// 	{
-	// 		type: "incoming",
-	// 		data: Sample[0]
-	// 	},
-	// 	{
-	// 		type: "outgoing",
-	// 		data: "how tall is the eiffel tower"
-	// 	},
-	// ]
+	const initialMessages: ChatMessage[] =
+		[
+			{
+				type: "outgoing",
+				data: "how tall is the eiffel tower"
+			},
+			{
+				type: "incoming",
+				data: Sample[0]
+			},
+			{
+				type: "outgoing",
+				data: "how tall is the eiffel tower"
+			},
+			{
+				type: "incoming",
+				data: Sample[0]
+			},
+			{
+				type: "outgoing",
+				data: "how tall is the eiffel tower"
+			},
+			{
+				type: "incoming",
+				data: Sample[0]
+			},
+			{
+				type: "outgoing",
+				data: "how tall is the eiffel tower"
+			},
+			{
+				type: "incoming",
+				data: Sample[0]
+			},
+			{
+				type: "outgoing",
+				data: "how tall is the eiffel tower"
+			},
+			{
+				type: "incoming",
+				data: Sample[0]
+			},
+			{
+				type: "outgoing",
+				data: "how tall is the eiffel tower"
+			},
+		]
 
+	const [thinking, setThinking] = useState<boolean>(false)
+	const [lastChat, setLastChat] = useState<BingResponse | null>(null)
 	const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
-	const [thinking, setThinking] = useState(false)
-	const [lastChat, setLastChat] = useState<{} | null>(null)
 
 	const handleQuery = async (query: string) => {
 		setMessages([...messages, { type: "outgoing", data: query }])
@@ -72,35 +89,22 @@ const App = () => {
 	}
 
 	useEffect(() => {
-		if (api.askBing) {
-			askBing.current = api.askBing
-		}
+		if (api.askBing) askBing.current = api.askBing
 	}, [])
 
 	return (
-		<Container>
-			<nav style={{
-				width: '100%',
-				height: 20,
-				opacity: 0.5,
-				columnGap: 20,
-				display: 'flex',
-				justifyContent: 'flex-end',
-				backgroundColor: 'black',
-				zIndex: 100,
-				cursor: 'move', // this doesn't work with WebkitAppRegion
-				// @ts-expect-error
-				WebkitAppRegion: 'drag', // WebkitAppRegion is a valid CSS property
-			}}>
-				<Info size={18} color={"white"} />
-				<Settings size={18} color={"white"} />
-				<RefreshCw size={18} color={"white"} />
-			</nav>
-
+		<div css={{
+			padding: 24,
+			rowGap: 8,
+			width: "100%",
+			height: "100%",
+			display: "flex",
+			flexDirection: "column",
+		}}>
+			<Menu />
 			<Chat messages={messages} thinking={thinking} />
 			<Form handleQuery={handleQuery} thinking={thinking} />
-
-		</Container>
+		</div>
 	);
 };
 
