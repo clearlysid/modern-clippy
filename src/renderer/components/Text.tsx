@@ -1,6 +1,5 @@
 import styled from "@emotion/styled"
 import { motion } from "framer-motion";
-import type { ChatMessage } from "../types";
 
 const MessageText = styled.p({
 	color: "white",
@@ -12,7 +11,7 @@ export default function Text({
 	type,
 	data,
 	index
-}) {
+}: { type: 'incoming' | 'outgoing', data: any, index?: number }) {
 
 	let text
 	let incoming = type === "incoming" ? true : false
@@ -41,7 +40,7 @@ export default function Text({
 		exit={{ opacity: 0, scale: 0.8, y: 100, x: incoming ? 20 : -20 }}
 		transition={{
 			layout: {
-				duration: index * 0.1,
+				duration: index * 0.05,
 				type: "spring",
 			}
 		}}
