@@ -1,30 +1,58 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import styled from "@emotion/styled"
 import { Info, Settings } from "react-feather";
 import Form from "./components/Form";
-import Response from "./components/Response";
+import Text from "./components/Text";
+import Sample from './components/sample.json'
 
 const Container = styled.div({
 	padding: 24,
 	width: "100%",
 	height: "100%",
 	display: "flex",
-	alignItems: "center",
 	flexDirection: "column",
-	justifyContent: "center",
 })
 
 const App = () => {
 
 	const askBing = useRef(null)
+	const [chat, setChat] = useState([
+		{
+			type: "outgoing",
+			data: "how tall is the eiffel tower"
+		},
+		{
+			type: "incoming",
+			data: Sample[0]
+		},
+		{
+			type: "outgoing",
+			data: "how tall is the eiffel tower"
+		},
+	])
+	const [thinking, setThinking] = useState(false)
 
 	const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		const query = (e.target as HTMLFormElement).querySelector('input').value
-		// set state to thinking
 
+		// don't proceed if response is pending
+		if (thinking) return
+
+		const query = (e.target as HTMLFormElement).querySelector('input').value
+
+		// add query to chat
+		setChat([...chat, { type: "outgoing", data: query }])
+
+		// set state to thinking
+		setThinking(true)
+
+		// send query to bing
 		const response = await askBing.current(query)
+
+		// add to chat
+		setChat([...chat, { type: "incoming", data: response }])
+		setThinking(false)
 	}
 
 	useEffect(() => {
@@ -37,22 +65,36 @@ const App = () => {
 
 	return (
 		<Container>
-			<div style={{ height: '100%', width: '100%' }}>
-				<nav style={{
-					width: '100%',
-					opacity: 0.5,
-					columnGap: 20,
+			<nav style={{
+				width: '100%',
+				height: 20,
+				opacity: 0.5,
+				columnGap: 20,
+				display: 'flex',
+				justifyContent: 'flex-end',
+				alignItems: 'flex-end',
+				// @ts-expect-error
+				WebkitAppRegion: 'drag'
+			}}>
+				<Info size={18} color={"white"} />
+				<Settings size={18} color={"white"} />
+			</nav>
+			<main style={{
+				height: '100%',
+				paddingBottom: 24,
+				overflow: 'scroll',
+			}}>
+				<div style={{
+					height: 'max-content',
 					display: 'flex',
+					flexDirection: 'column',
+					rowGap: 8,
 					justifyContent: 'flex-end',
-					alignItems: 'flex-end',
-					// @ts-expect-error
-					webkitAppRegion: 'drag'
+					width: '100%',
 				}}>
-					<Info size={18} color={"white"} />
-					<Settings size={18} color={"white"} />
-				</nav>
-				<Response />
-			</div>
+					{chat.map((c, i) => <Text key={i} data={c.data} type={c.type} />)}
+				</div>
+			</main>
 			<Form onSubmit={handleFormSubmit} />
 		</Container>
 	);

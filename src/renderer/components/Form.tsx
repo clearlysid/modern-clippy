@@ -12,6 +12,7 @@ export default function Form({
 		overflow: "hidden",
 		boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
 		border: "1px solid rgba(0, 0, 0, 0.1)",
+		alignSelf: "end",
 	}}
 		onSubmit={onSubmit}>
 		<input type="text" style={{
