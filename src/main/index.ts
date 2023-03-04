@@ -26,11 +26,10 @@ app.on('ready', () => {
   globalShortcut.register('CommandOrControl+Shift+6', () => toggleWindow())
   globalShortcut.register('CommandOrControl+Shift+7', () => app.quit())
   globalShortcut.register('CommandOrControl+R', function() {
-		console.log('CommandOrControl+R is pressed')
 		mainWindow.reload()
 	})
 
-  // mainWindow.on('blur', () => mainWindow.hide())
+  mainWindow.on('blur', () => mainWindow.hide())
 });
 
 
