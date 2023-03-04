@@ -72,10 +72,8 @@ const App = () => {
 	}
 
 	useEffect(() => {
-		// @ts-expect-error
-		if (window.api.askBing) {
-			// @ts-expect-error
-			askBing.current = window.api.askBing
+		if (api.askBing) {
+			askBing.current = api.askBing
 		}
 	}, [])
 

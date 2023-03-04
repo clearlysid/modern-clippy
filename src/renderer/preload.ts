@@ -1,5 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge } from 'electron'
+import api from './api'
 
-contextBridge.exposeInMainWorld('api', {
-  askBing: (query: string, convo: {} ) => ipcRenderer.invoke('function:askBing', query, convo)
-})
+contextBridge.exposeInMainWorld('api', api)
