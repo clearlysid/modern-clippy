@@ -43,7 +43,6 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
     "bing-chat": "^0.2.1",
     "electron-squirrel-startup": "^1.0.0",
     "framer-motion": "^10.0.1",
