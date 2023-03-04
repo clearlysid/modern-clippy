@@ -21,6 +21,7 @@ export default function Chat({ messages, thinking }: { messages: ChatMessage[], 
 		}}>
 			<AnimatePresence initial={false} mode="popLayout">
 				{messages.map((c, i) => <Text index={i} key={i} data={c.data} type={c.type} />)}
+				{thinking && <Text data={'...'} type={"incoming"} />}
 			</AnimatePresence>
 		</div>
 	</main>
