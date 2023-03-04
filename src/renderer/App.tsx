@@ -8,6 +8,7 @@ import Sample from './components/sample.json'
 
 const Container = styled.div({
 	padding: 24,
+	rowGap: 8,
 	width: "100%",
 	height: "100%",
 	display: "flex",
@@ -17,7 +18,15 @@ const Container = styled.div({
 const App = () => {
 
 	const askBing = useRef(null)
-	const [chat, setChat] = useState([
+	const [chat, setChat] = useState<{ type: 'incoming' | 'outgoing', data: {} | string }[]>([
+		{
+			type: "outgoing",
+			data: "how tall is the eiffel tower"
+		},
+		{
+			type: "incoming",
+			data: Sample[0]
+		},
 		{
 			type: "outgoing",
 			data: "how tall is the eiffel tower"
@@ -44,6 +53,7 @@ const App = () => {
 		// add query to chat
 		setChat([...chat, { type: "outgoing", data: query }])
 
+		return
 		// set state to thinking
 		setThinking(true)
 
@@ -81,14 +91,15 @@ const App = () => {
 			</nav>
 			<main style={{
 				height: '100%',
-				paddingBottom: 24,
 				overflow: 'scroll',
+				display: 'flex',
+				flexDirection: 'column-reverse',
 			}}>
 				<div style={{
 					height: 'max-content',
+					rowGap: 12,
 					display: 'flex',
 					flexDirection: 'column',
-					rowGap: 8,
 					justifyContent: 'flex-end',
 					width: '100%',
 				}}>

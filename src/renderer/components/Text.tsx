@@ -4,8 +4,7 @@ export default function Text({
 	type,
 	data
 }: {
-	// type: "incoming" | "outgoing",
-	type: String,
+	type: "incoming" | "outgoing",
 	data: {} | string,
 }) {
 
@@ -15,7 +14,6 @@ export default function Text({
 			padding: '8px 12px',
 			borderRadius: 12,
 			maxWidth: '80%',
-			marginBottom: 12,
 			marginLeft: 'auto',
 			marginRight: 0,
 		}}>
