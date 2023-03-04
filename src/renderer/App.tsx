@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import Menu from "./components/Menu";
 import Form from "./components/Form";
 import Chat from "./components/Chat";
-import Sample from "./components/sample.json";
+import initialTexts from "./components/initialTexts";
 
 import type { ChatMessage } from "./types";
 import type { BingResponse } from "./types";
@@ -13,53 +13,9 @@ const App = () => {
 
 	const askBing = useRef(null)
 
-	const initialMessages: ChatMessage[] = []
-	// [
-	// 	{
-	// 		type: "outgoing",
-	// 		data: "how tall is the eiffel tower"
-	// 	},
-	// 	{
-	// 		type: "incoming",
-	// 		data: Sample[0]
-	// 	},
-	// 	{
-	// 		type: "outgoing",
-	// 		data: "how tall is the eiffel tower"
-	// 	},
-	// 	{
-	// 		type: "incoming",
-	// 		data: Sample[0]
-	// 	},
-	// 	{
-	// 		type: "outgoing",
-	// 		data: "how tall is the eiffel tower"
-	// 	},
-	// 	{
-	// 		type: "incoming",
-	// 		data: Sample[0]
-	// 	},
-	// 	{
-	// 		type: "outgoing",
-	// 		data: "how tall is the eiffel tower"
-	// 	},
-	// 	{
-	// 		type: "incoming",
-	// 		data: Sample[0]
-	// 	},
-	// 	{
-	// 		type: "outgoing",
-	// 		data: "how tall is the eiffel tower"
-	// 	},
-	// 	{
-	// 		type: "incoming",
-	// 		data: Sample[0]
-	// 	},
-	// 	{
-	// 		type: "outgoing",
-	// 		data: "how tall is the eiffel tower"
-	// 	},
-	// ]
+	// const initialMessages: ChatMessage[] = []
+	const initialMessages: ChatMessage[] = initialTexts
+
 
 	const [thinking, setThinking] = useState<boolean>(false)
 	const [lastChat, setLastChat] = useState<BingResponse | null>(null)

@@ -1,7 +1,7 @@
 
 export type ChatMessage = {
 	type: 'incoming' | 'outgoing',
-	data: string | BingResponse | {}
+	data: string | BingResponse
 }
 
 export type BingResponse = {
