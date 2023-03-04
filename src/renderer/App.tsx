@@ -19,28 +19,32 @@ const Container = styled.div({
 const App = () => {
 
 	const askBing = useRef(null)
-	const [chat, setChat] = useState<ChatMessage[]>([
-		{
-			type: "outgoing",
-			data: "how tall is the eiffel tower"
-		},
-		{
-			type: "incoming",
-			data: Sample[0]
-		},
-		{
-			type: "outgoing",
-			data: "how tall is the eiffel tower"
-		},
-		{
-			type: "incoming",
-			data: Sample[0]
-		},
-		{
-			type: "outgoing",
-			data: "how tall is the eiffel tower"
-		},
-	])
+
+	const initialChat: ChatMessage[] =
+		[
+			{
+				type: "outgoing",
+				data: "how tall is the eiffel tower"
+			},
+			{
+				type: "incoming",
+				data: Sample[0]
+			},
+			{
+				type: "outgoing",
+				data: "how tall is the eiffel tower"
+			},
+			{
+				type: "incoming",
+				data: Sample[0]
+			},
+			{
+				type: "outgoing",
+				data: "how tall is the eiffel tower"
+			},
+		]
+
+	const [chat, setChat] = useState<ChatMessage[]>(initialChat)
 	const [thinking, setThinking] = useState(false)
 
 	const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,12 +56,13 @@ const App = () => {
 		// add query to chat
 		setChat([...chat, { type: "outgoing", data: query }])
 
-		return
 		// set state to thinking
 		setThinking(true)
 
 		// send query to bing
 		const response = await askBing.current(query)
+
+		console.log(response)
 
 		// add to chat
 		setChat([...chat, { type: "incoming", data: response }])
