@@ -86,11 +86,11 @@ const App = () => {
 				columnGap: 20,
 				display: 'flex',
 				justifyContent: 'flex-end',
-				// @ts-expect-error
-				WebkitAppRegion: 'drag',
 				backgroundColor: 'black',
-				cursor: 'move',
-				zIndex: 100
+				zIndex: 100,
+				cursor: 'move', // this doesn't work with WebkitAppRegion
+				// @ts-expect-error
+				WebkitAppRegion: 'drag', // WebkitAppRegion is a valid CSS property
 			}}>
 				<Info size={18} color={"white"} />
 				<Settings size={18} color={"white"} />
