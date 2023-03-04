@@ -1,16 +1,24 @@
-import { motion, AnimatePresence } from "framer-motion"
+import { useRef } from "react"
+import { motion, AnimatePresence, useScroll } from "framer-motion"
 import { ChatMessage } from "../types"
 import Text from "./Text"
 
 export default function Chat({ messages, thinking }: { messages: ChatMessage[], thinking: boolean }) {
 
-	return <main style={{
-		height: '100%',
-		overflow: 'scroll',
-		display: 'flex',
-		flexDirection: 'column-reverse',
-		scrollBehavior: 'smooth',
-	}}>
+	const scrollRef = useRef(null)
+	const { scrollY } = useScroll({
+		container: scrollRef
+	})
+
+	return <motion.main
+		ref={scrollRef}
+		style={{
+			height: '100%',
+			overflow: 'scroll',
+			display: 'flex',
+			flexDirection: 'column-reverse',
+			scrollBehavior: 'smooth',
+		}}>
 		<div style={{
 			height: 'max-content',
 			rowGap: 12,
@@ -24,5 +32,5 @@ export default function Chat({ messages, thinking }: { messages: ChatMessage[], 
 				{thinking && <Text data={'...'} type={"incoming"} />}
 			</AnimatePresence>
 		</div>
-	</main>
+	</motion.main>
 }
