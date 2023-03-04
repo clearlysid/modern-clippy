@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import styled from "@emotion/styled"
 import { Info, Settings } from "react-feather";
 import Form from "./components/Form";
-import Text from "./components/Text";
+import Chat from "./components/Chat";
 import Sample from './components/sample.json'
 import type { ChatMessage } from "./types";
 
@@ -20,7 +20,7 @@ const App = () => {
 
 	const askBing = useRef(null)
 
-	const initialChat: ChatMessage[] =
+	const initialMessages: ChatMessage[] =
 		[
 			{
 				type: "outgoing",
@@ -44,7 +44,7 @@ const App = () => {
 			},
 		]
 
-	const [chat, setChat] = useState<ChatMessage[]>(initialChat)
+	const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
 	const [thinking, setThinking] = useState(false)
 
 	const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,7 +54,9 @@ const App = () => {
 		const query = (e.target as HTMLFormElement).querySelector('input').value
 
 		// add query to chat
-		setChat([...chat, { type: "outgoing", data: query }])
+		setMessages([...messages, { type: "outgoing", data: query }])
+
+		return
 
 		// set state to thinking
 		setThinking(true)
@@ -65,7 +67,7 @@ const App = () => {
 		console.log(response)
 
 		// add to chat
-		setChat([...chat, { type: "incoming", data: response }])
+		setMessages([...messages, { type: "incoming", data: response }])
 		setThinking(false)
 	}
 
@@ -93,24 +95,10 @@ const App = () => {
 				<Info size={18} color={"white"} />
 				<Settings size={18} color={"white"} />
 			</nav>
-			<main style={{
-				height: '100%',
-				overflow: 'scroll',
-				display: 'flex',
-				flexDirection: 'column-reverse',
-			}}>
-				<div style={{
-					height: 'max-content',
-					rowGap: 12,
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'flex-end',
-					width: '100%',
-				}}>
-					{chat.map((c, i) => <Text key={i} data={c.data} type={c.type} />)}
-				</div>
-			</main>
+
+			<Chat messages={messages} thinking={thinking} />
 			<Form onSubmit={handleFormSubmit} />
+
 		</Container>
 	);
 };
