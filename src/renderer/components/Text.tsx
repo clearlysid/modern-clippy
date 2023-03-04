@@ -1,14 +1,6 @@
 import styled from "@emotion/styled"
+import { motion } from "framer-motion";
 import type { ChatMessage } from "../types";
-
-const MessageBubble = styled.div(props => ({
-	padding: '8px 12px',
-	borderRadius: 12,
-	maxWidth: '80%',
-	background: props.incoming ? '#3164ff' : '#000000',
-	marginLeft: props.incoming ? 'auto' : 0,
-	width: 'fit-content'
-}))
 
 const MessageText = styled.p({
 	color: "white",
@@ -18,8 +10,9 @@ const MessageText = styled.p({
 
 export default function Text({
 	type,
-	data
-}: ChatMessage) {
+	data,
+	index
+}) {
 
 	let text
 	let incoming = type === "incoming" ? true : false
@@ -32,9 +25,29 @@ export default function Text({
 
 	if (!text) return
 
-	return <MessageBubble incoming={incoming}>
+	return <motion.div
+		key={index}
+		layout
+		style={{
+			maxWidth: '80%',
+			borderRadius: 12,
+			padding: '8px 12px',
+			width: 'fit-content',
+			marginLeft: incoming ? 'auto' : 0,
+			background: incoming ? '#3164ff' : '#000000',
+		}}
+		initial={{ opacity: 0, scale: 0.8, y: 100, x: incoming ? 20 : -20 }}
+		animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+		exit={{ opacity: 0, scale: 0.8, y: 100, x: incoming ? 20 : -20 }}
+		transition={{
+			layout: {
+				duration: index * 0.1,
+				type: "spring",
+			}
+		}}
+	>
 		<MessageText>
 			{text}
 		</MessageText>
-	</MessageBubble>
+	</motion.div>
 }
