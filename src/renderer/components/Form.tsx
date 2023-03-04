@@ -25,7 +25,10 @@ export default function Form({
 			inputRef.current.value = ""
 		}}>
 		<input
+			autoFocus
+			onBlur={(e) => { e.target.focus() }}
 			type="text"
+			placeholder="Ask clippy anything!"
 			ref={inputRef}
 			style={{
 				width: "100%",
@@ -41,11 +44,14 @@ export default function Form({
 		<button
 			type="submit"
 			style={{
-				paddingRight: 24,
-				background: "none",
+				padding: "0 24px",
+				margin: 4,
+				background: "#0000003c",
 				border: "none",
+				borderRadius: 8,
 				outline: "none",
 				color: "white",
+				cursor: "pointer",
 			}}>
 			⏎
 		</button>
