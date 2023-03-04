@@ -1,9 +1,8 @@
 import { useRef } from "react"
 
-export default function Form({
-	onSubmit
-}: {
-	onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+export default function Form({ handleQuery, thinking }: {
+	thinking: boolean,
+	handleQuery: (query: string) => void
 }) {
 
 	const inputRef = useRef<HTMLInputElement>(null)
@@ -21,12 +20,12 @@ export default function Form({
 	}}
 		onSubmit={(e) => {
 			e.preventDefault()
-			onSubmit(e)
+			if (thinking) return
+			handleQuery(inputRef.current.value)
 			inputRef.current.value = ""
 		}}>
 		<input
 			autoFocus
-			onBlur={(e) => { e.target.focus() }}
 			type="text"
 			placeholder="Ask clippy anything!"
 			ref={inputRef}

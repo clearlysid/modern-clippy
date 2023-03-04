@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import styled from "@emotion/styled"
-import { Info, Settings } from "react-feather";
+import { Info, Settings, RefreshCw } from "react-feather";
 import Form from "./components/Form";
 import Chat from "./components/Chat";
-import Sample from './components/sample.json'
+import Sample from "./components/sample.json";
 import type { ChatMessage } from "./types";
 
 const Container = styled.div({
@@ -48,21 +48,13 @@ const App = () => {
 	const [thinking, setThinking] = useState(false)
 	const [lastChat, setLastChat] = useState<{} | null>(null)
 
-	const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		// don't proceed if response is pending
-		if (thinking) return
-
-		const query = (e.target as HTMLFormElement).querySelector('input').value
-
-		// add query to chat
+	const handleQuery = async (query: string) => {
 		setMessages([...messages, { type: "outgoing", data: query }])
 
-		// return
-		setThinking(true)
+		const startThinking = setTimeout(() => setThinking(true), 1000)
 
 		let response
 
-		// send query to bing
 		if (!lastChat) {
 			response = await askBing.current(query)
 			setLastChat(response)
@@ -70,11 +62,13 @@ const App = () => {
 			response = await askBing.current(query, lastChat)
 		}
 
+		clearTimeout(startThinking)
+		setThinking(false)
+
 		setMessages([...messages,
 		{ type: "outgoing", data: query },
 		{ type: "incoming", data: response }
 		])
-		setThinking(false)
 	}
 
 	useEffect(() => {
@@ -94,16 +88,19 @@ const App = () => {
 				columnGap: 20,
 				display: 'flex',
 				justifyContent: 'flex-end',
-				alignItems: 'flex-end',
 				// @ts-expect-error
-				WebkitAppRegion: 'drag'
+				WebkitAppRegion: 'drag',
+				backgroundColor: 'black',
+				cursor: 'move',
+				zIndex: 100
 			}}>
 				<Info size={18} color={"white"} />
 				<Settings size={18} color={"white"} />
+				<RefreshCw size={18} color={"white"} />
 			</nav>
 
 			<Chat messages={messages} thinking={thinking} />
-			<Form onSubmit={handleFormSubmit} />
+			<Form handleQuery={handleQuery} thinking={thinking} />
 
 		</Container>
 	);
