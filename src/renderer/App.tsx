@@ -20,32 +20,33 @@ const App = () => {
 
 	const askBing = useRef(null)
 
-	const initialMessages: ChatMessage[] =
-		[
-			{
-				type: "outgoing",
-				data: "how tall is the eiffel tower"
-			},
-			{
-				type: "incoming",
-				data: Sample[0]
-			},
-			{
-				type: "outgoing",
-				data: "how tall is the eiffel tower"
-			},
-			{
-				type: "incoming",
-				data: Sample[0]
-			},
-			{
-				type: "outgoing",
-				data: "how tall is the eiffel tower"
-			},
-		]
+	const initialMessages: ChatMessage[] = []
+	// [
+	// 	{
+	// 		type: "outgoing",
+	// 		data: "how tall is the eiffel tower"
+	// 	},
+	// 	{
+	// 		type: "incoming",
+	// 		data: Sample[0]
+	// 	},
+	// 	{
+	// 		type: "outgoing",
+	// 		data: "how tall is the eiffel tower"
+	// 	},
+	// 	{
+	// 		type: "incoming",
+	// 		data: Sample[0]
+	// 	},
+	// 	{
+	// 		type: "outgoing",
+	// 		data: "how tall is the eiffel tower"
+	// 	},
+	// ]
 
 	const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
 	const [thinking, setThinking] = useState(false)
+	const [lastChat, setLastChat] = useState<{} | null>(null)
 
 	const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		// don't proceed if response is pending
@@ -56,18 +57,23 @@ const App = () => {
 		// add query to chat
 		setMessages([...messages, { type: "outgoing", data: query }])
 
-		return
-
-		// set state to thinking
+		// return
 		setThinking(true)
 
+		let response
+
 		// send query to bing
-		const response = await askBing.current(query)
+		if (!lastChat) {
+			response = await askBing.current(query)
+			setLastChat(response)
+		} else {
+			response = await askBing.current(query, lastChat)
+		}
 
-		console.log(response)
-
-		// add to chat
-		setMessages([...messages, { type: "incoming", data: response }])
+		setMessages([...messages,
+		{ type: "outgoing", data: query },
+		{ type: "incoming", data: response }
+		])
 		setThinking(false)
 	}
 

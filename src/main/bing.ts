@@ -5,13 +5,11 @@ dotenv.config()
 export const getBingResponse = async (
     _event:Electron.IpcMainEvent,
     query: string,
-    conversationId: string
+    previousChat?: any
   ) => {
     const api = new BingChat({
       cookie: process.env.BING_COOKIE
     })
-    const res = await api.sendMessage(query, {
-      conversationId
-    })
+    const res = await api.sendMessage(query, previousChat)
     return res
   }
