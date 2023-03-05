@@ -19,6 +19,9 @@ export const createMainWindow = () => {
 		maximizable: false,
 		fullscreenable: false,
 		skipTaskbar: true,
+		acceptFirstMouse: true,
+		darkTheme: true,
+		type: 'panel',
 		frame: false,
 		// vibrancy: 'popover',
 		webPreferences: {
@@ -27,6 +30,7 @@ export const createMainWindow = () => {
 	});
 
 	mainWindow.removeMenu();
+	mainWindow.visibleOnAllWorkspaces = true;
 	mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
 	return mainWindow
