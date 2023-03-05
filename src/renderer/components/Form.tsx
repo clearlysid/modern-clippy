@@ -1,5 +1,6 @@
 import { useRef } from "react"
 import { motion } from "framer-motion"
+import clippy from "./clippy-demo.gif";
 
 export default function Form({ handleQuery, thinking }: {
 	thinking: boolean,
@@ -57,5 +58,14 @@ export default function Form({ handleQuery, thinking }: {
 			}}>
 			⏎
 		</button>
+		<img
+			src={clippy}
+			alt="clippy"
+			css={{
+				width: 100,
+				position: "absolute",
+				right: 0,
+				bottom: 36
+			}} />
 	</motion.form>
 }
