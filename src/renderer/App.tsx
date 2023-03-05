@@ -13,8 +13,8 @@ import type { BingResponse } from "./types";
 
 const App = () => {
 
-	// const initialMessages: ChatMessage[] = []
-	const initialMessages: ChatMessage[] = initialTexts
+	const initialMessages: ChatMessage[] = []
+	// const initialMessages: ChatMessage[] = initialTexts
 
 	const [thinking, setThinking] = useState<boolean>(false)
 	const [lastChat, setLastChat] = useState<BingResponse | null>(null)
@@ -24,7 +24,6 @@ const App = () => {
 		setMessages([...messages, { type: "outgoing", data: query }])
 
 		const startThinking = setTimeout(() => setThinking(true), 2000)
-
 		let response
 
 		if (!lastChat) {
@@ -43,6 +42,30 @@ const App = () => {
 		])
 	}
 
+	const handleInfo = () => {
+		let currentMessages: ChatMessage[] =
+			[...messages, { type: "outgoing", data: "What is this app?" }]
+		setMessages(currentMessages)
+
+		const response: ChatMessage = {
+			type: "incoming",
+			data: "A weekend hack by @clearlysid to practice some code. Instead of ChatGPT, I reverse engineer Microsoft's new Bing Search API to respond. That way I'm not limited to any training dataset, and can answer anything by searching the web! I'm also open source, so you can see how I work."
+		}
+
+		const quip: ChatMessage = {
+			type: "incoming",
+			data: "Also, Sid really misses me and hates Siri and Cortana."
+		}
+
+		setTimeout(() => {
+			setMessages([...currentMessages, response])
+		}, 1000)
+
+		setTimeout(() => {
+			setMessages([...currentMessages, response, quip])
+		}, 4000)
+	}
+
 	return (
 		<motion.div
 			layout
@@ -57,7 +80,7 @@ const App = () => {
 			<Hide />
 			<Chat messages={messages} thinking={thinking} />
 			<Form handleQuery={handleQuery} thinking={thinking} />
-			<Menu />
+			<Menu onTriggerInfo={handleInfo} />
 		</motion.div>
 	);
 };
