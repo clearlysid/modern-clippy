@@ -25,11 +25,11 @@ export default function Text({
 			layout
 			style={{
 				maxWidth: '80%',
-				borderRadius: 12,
+				borderRadius: 18,
 				padding: '8px 12px',
 				width: 'fit-content',
 				marginLeft: incoming ? 'auto' : 0,
-				background: incoming ? '#3164ff' : '#000000',
+				background: incoming ? '#efffba' : '#000000cc',
 				boxShadow: '0px 4px 24px rgba(0, 0, 0, 0.4)',
 			}}
 			initial={{ opacity: 0, scale: 0.8, y: 100, x: incoming ? 20 : -20 }}
@@ -43,7 +43,7 @@ export default function Text({
 			}}
 		>
 			<p style={{
-				color: "white",
+				color: incoming ? "#444444" : "white",
 				fontSize: 17,
 				lineHeight: 1.5,
 			}}>

@@ -8,17 +8,19 @@ export default function Form({ handleQuery, thinking }: {
 
 	const inputRef = useRef<HTMLInputElement>(null)
 
-	return <motion.form layout style={{
-		width: "100%",
-		height: 84,
-		display: "flex",
-		background: "#161616",
-		borderRadius: 8,
-		overflow: "hidden",
-		boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-		border: "1px solid rgba(255, 255, 255, 0.2)",
-		alignSelf: "end",
-	}}
+	return <motion.form
+		layout
+		style={{
+			height: 84,
+			width: "100%",
+			display: "flex",
+			borderRadius: 8,
+			alignSelf: "end",
+			overflow: "hidden",
+			background: "#161616",
+			boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+			border: "1px solid rgba(255, 255, 255, 0.2)",
+		}}
 		onSubmit={(e) => {
 			e.preventDefault()
 			if (thinking) return

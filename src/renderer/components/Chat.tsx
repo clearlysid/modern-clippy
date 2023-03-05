@@ -14,7 +14,8 @@ export default function Chat({ messages, thinking }: { messages: ChatMessage[], 
 		layout
 		ref={scrollRef}
 		style={{
-			maxHeight: '100%',
+			flex: 1,
+			// maxHeight: '100%',
 			overflow: 'scroll',
 			display: 'flex',
 			flexDirection: 'column-reverse',
