@@ -5,7 +5,11 @@ export default function Text({
 	type,
 	data,
 	index
-}: { type: 'incoming' | 'outgoing', data: BingResponse | string, index?: number }) {
+}: {
+	type: 'incoming' | 'outgoing',
+	data: BingResponse | string,
+	index?: number
+}) {
 
 	let text
 	let incoming = type === "incoming" ? true : false

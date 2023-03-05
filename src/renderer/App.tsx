@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { motion } from "framer-motion";
 
@@ -13,10 +13,8 @@ import type { BingResponse } from "./types";
 
 const App = () => {
 
-	const askBing = useRef(null)
-
-	const initialMessages: ChatMessage[] = []
-	// const initialMessages: ChatMessage[] = initialTexts
+	// const initialMessages: ChatMessage[] = []
+	const initialMessages: ChatMessage[] = initialTexts
 
 	const [thinking, setThinking] = useState<boolean>(false)
 	const [lastChat, setLastChat] = useState<BingResponse | null>(null)
@@ -30,10 +28,10 @@ const App = () => {
 		let response
 
 		if (!lastChat) {
-			response = await askBing.current(query)
+			response = await api.askBing(query)
 			setLastChat(response)
 		} else {
-			response = await askBing.current(query, lastChat)
+			response = await api.askBing(query, lastChat)
 		}
 
 		clearTimeout(startThinking)
@@ -44,10 +42,6 @@ const App = () => {
 		{ type: "incoming", data: response }
 		])
 	}
-
-	useEffect(() => {
-		if (api.askBing) askBing.current = api.askBing
-	}, [])
 
 	return (
 		<motion.div
