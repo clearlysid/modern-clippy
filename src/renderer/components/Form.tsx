@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import { motion } from "framer-motion"
 
 export default function Form({ handleQuery, thinking }: {
 	thinking: boolean,
@@ -7,7 +8,7 @@ export default function Form({ handleQuery, thinking }: {
 
 	const inputRef = useRef<HTMLInputElement>(null)
 
-	return <form style={{
+	return <motion.form layout style={{
 		width: "100%",
 		height: 84,
 		display: "flex",
@@ -15,7 +16,7 @@ export default function Form({ handleQuery, thinking }: {
 		borderRadius: 8,
 		overflow: "hidden",
 		boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-		border: "1px solid rgba(0, 0, 0, 0.1)",
+		border: "1px solid rgba(255, 255, 255, 0.2)",
 		alignSelf: "end",
 	}}
 		onSubmit={(e) => {
@@ -54,5 +55,5 @@ export default function Form({ handleQuery, thinking }: {
 			}}>
 			⏎
 		</button>
-	</form>
+	</motion.form>
 }

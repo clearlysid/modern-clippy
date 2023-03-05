@@ -11,9 +11,10 @@ export default function Chat({ messages, thinking }: { messages: ChatMessage[], 
 	})
 
 	return <motion.main
+		layout
 		ref={scrollRef}
 		style={{
-			height: '100%',
+			maxHeight: '100%',
 			overflow: 'scroll',
 			display: 'flex',
 			flexDirection: 'column-reverse',

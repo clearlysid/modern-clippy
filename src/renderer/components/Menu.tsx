@@ -1,21 +1,24 @@
-import { Info, Settings, RefreshCw } from "react-feather";
+import { Info, Settings, RefreshCw, Move } from "react-feather";
+import { motion } from "framer-motion";
 
 export default function Menu() {
-	return <nav
+	return <motion.nav layout
 		css={{
-			width: '100%',
-			height: 20,
-			opacity: 0.5,
+			width: 'max-content',
+			marginTop: -16,
+			padding: 6,
+			opacity: 0.6,
 			columnGap: 20,
+			borderRadius: 8,
 			display: 'flex',
+			alignSelf: 'center',
 			justifyContent: 'flex-end',
 			backgroundColor: 'black',
 			zIndex: 100,
-			cursor: 'move', // this doesn't work with WebkitAppRegion
-			WebkitAppRegion: 'drag',
 		}}>
-		<Info size={18} color={"white"} />
-		<Settings size={18} color={"white"} />
-		<RefreshCw size={18} color={"white"} />
-	</nav>
+		<Move size={16} color={"white"} css={{ WebkitAppRegion: 'drag' }} />
+		<Info size={16} color={"white"} />
+		<Settings size={16} color={"white"} />
+		<RefreshCw size={16} color={"white"} />
+	</motion.nav>
 }
