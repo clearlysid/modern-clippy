@@ -25,6 +25,8 @@ if (!lock) {
     // Create main window
     app.on('ready', () => {
       ipcMain.handle('function:askBing', getBingResponse)
+      ipcMain.on('function:hideWindow', () => mainWindow.hide())
+      ipcMain.on('function:reloadWindow', () => mainWindow.reload())
     
       app.setActivationPolicy('accessory') // macOS only
     
@@ -38,10 +40,6 @@ if (!lock) {
       trayIcon.addListener('right-click', () => app.quit())
     
       globalShortcut.register('CommandOrControl+Shift+6', () => toggleWindow())
-      globalShortcut.register('CommandOrControl+R', function() {
-        mainWindow.reload()
-      })
-    
       // mainWindow.on('blur', () => mainWindow.hide())
     });
 }
