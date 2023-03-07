@@ -1,6 +1,5 @@
 import { useRef } from "react"
 import { motion } from "framer-motion"
-// import clippy from "./clippy-demo.gif";
 
 export default function Form({ handleQuery, thinking }: {
 	thinking: boolean,
@@ -26,13 +25,9 @@ export default function Form({ handleQuery, thinking }: {
 			e.preventDefault()
 			if (thinking) return
 
-			const query = inputRef?.current?.value
+			handleQuery(inputRef?.current?.value)
+			inputRef.current.value = ""
 
-			if (query) {
-				handleQuery(query)
-				// @ts-expect-error
-				inputRef?.current?.value = ""
-			}
 		}}>
 		<input
 			autoFocus
@@ -64,14 +59,14 @@ export default function Form({ handleQuery, thinking }: {
 			}}>
 			⏎
 		</button>
-		{/* <img
-			src={clippy}
+		<img
+			src={'./assets/clippy-demo.gif'}
 			alt="clippy"
 			css={{
 				width: 100,
 				position: "absolute",
 				right: 0,
 				bottom: 36
-			}} /> */}
+			}} />
 	</motion.form>
 }
