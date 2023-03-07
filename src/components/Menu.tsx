@@ -31,6 +31,6 @@ export default function Menu({
 		{
 			onTriggerSettings && <Settings size={16} color={"white"} onClick={onTriggerSettings} />
 		}
-		<RefreshCw size={16} color={"white"} onClick={() => api.reloadWindow()} />
+		<RefreshCw size={16} color={"white"} onClick={() => console.log("refresh window")} />
 	</motion.nav>
 }
