@@ -26,19 +26,23 @@ const App = () => {
 		let response
 
 		if (!lastChat) {
-			response = await api.askBing(query)
-			setLastChat(response)
+			// TODO: ask bing
+			// response = await api.askBing(query)
+			// setLastChat(response)
 		} else {
-			response = await api.askBing(query, lastChat)
+			// TODO: ask bing with last chat
+			// response = await api.askBing(query, lastChat)
 		}
 
 		clearTimeout(startThinking)
 		setThinking(false)
 
-		setMessages([...messages,
-		{ type: "outgoing", data: query },
-		{ type: "incoming", data: response }
-		])
+		// Set messages correctly
+
+		// setMessages([...messages,
+		// { type: "outgoing", data: query },
+		// { type: "incoming", data: response }
+		// ])
 	}
 
 	const handleInfo = () => {

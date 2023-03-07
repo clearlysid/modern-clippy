@@ -25,8 +25,14 @@ export default function Form({ handleQuery, thinking }: {
 		onSubmit={(e) => {
 			e.preventDefault()
 			if (thinking) return
-			handleQuery(inputRef?.current?.value)
-			inputRef?.current?.value = ""
+
+			const query = inputRef?.current?.value
+
+			if (query) {
+				handleQuery(query)
+				// @ts-expect-error
+				inputRef?.current?.value = ""
+			}
 		}}>
 		<input
 			autoFocus
@@ -58,7 +64,7 @@ export default function Form({ handleQuery, thinking }: {
 			}}>
 			⏎
 		</button>
-		<img
+		{/* <img
 			src={clippy}
 			alt="clippy"
 			css={{
@@ -66,6 +72,6 @@ export default function Form({ handleQuery, thinking }: {
 				position: "absolute",
 				right: 0,
 				bottom: 36
-			}} />
+			}} /> */}
 	</motion.form>
 }
