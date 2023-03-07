@@ -12,11 +12,7 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false,
-      "shell": {
-        "all": false,
-        "open": true
-      }
+      "all": true
     },
     "bundle": {
       "active": true,
@@ -36,6 +32,31 @@
     "updater": {
       "active": false
     },
-    "windows": []
+    "windows": [
+      {
+        "label": "main",
+        "title": "Moden Clippy",
+        "width": 800,
+        "height": 600,
+        "transparent": true,
+        "visible": true,
+        "center": true,
+        "resizable": false,
+        "alwaysOnTop": true,
+        "focus": true,
+        "skipTaskbar": true,
+        "acceptFirstMouse": true,
+        "fullscreen": false,
+        "decorations": false,
+        "titleBarStyle": "Transparent",
+        "url": "index.html"
+      }
+    ],
+    "systemTray": {
+      "iconPath": "icons/ClippyIconTemplate@3x.png",
+      "iconAsTemplate": true,
+      "menuOnLeftClick": false
+    },
+    "macOSPrivateApi": true
   }
 }
