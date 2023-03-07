@@ -1,6 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use dotenv::dotenv;
 use tauri::{
     ActivationPolicy, AppHandle, CustomMenuItem, GlobalShortcutManager, Manager, SystemTray,
     SystemTrayEvent, SystemTrayMenu,
@@ -8,17 +9,11 @@ use tauri::{
 
 #[tauri::command]
 fn ask_bing(query: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", query)
-}
+    dotenv().ok();
 
-#[tauri::command]
-fn hide_window() {
-    println!("hide window")
-}
+    let bing_cookie = std::env::var("BING_COOKIE").expect("BING_COOKIE must be set.");
 
-#[tauri::command]
-fn reload_window() {
-    println!("reload window")
+    return format!("Hello, {}! You've been greeted from Rust!", query);
 }
 
 fn tray() -> SystemTray {
@@ -27,20 +22,6 @@ fn tray() -> SystemTray {
             .add_item(CustomMenuItem::new("clippy", "Clippy").accelerator("CmdOrCtrl+Shift+6"))
             .add_item(CustomMenuItem::new("quit", "Quit").accelerator("CmdOrCtrl+Q")),
     )
-}
-
-fn toggle_window(app: &AppHandle) {
-    if app.get_window("main").is_some() {
-        app.get_window("main")
-            .unwrap()
-            .hide()
-            .expect_err("Failed to hide Clippy");
-    } else {
-        app.get_window("main")
-            .unwrap()
-            .show()
-            .expect_err("Failed to show Clippy");
-    }
 }
 
 fn main() {
@@ -61,11 +42,37 @@ fn main() {
             },
             _ => {}
         })
-        .invoke_handler(tauri::generate_handler![ask_bing])
-        .invoke_handler(tauri::generate_handler![hide_window])
-        .invoke_handler(tauri::generate_handler![reload_window])
+        .invoke_handler(tauri::generate_handler![
+            ask_bing,
+            hide_window,
+            reload_window
+        ])
         .build(tauri::generate_context!())
         .expect("error while running tauri application");
+
+    fn toggle_window(app: &AppHandle) {
+        if app.get_window("main").is_some() {
+            app.get_window("main")
+                .unwrap()
+                .hide()
+                .expect_err("Failed to hide Clippy");
+        } else {
+            app.get_window("main")
+                .unwrap()
+                .show()
+                .expect_err("Failed to show Clippy");
+        }
+    }
+
+    #[tauri::command]
+    fn hide_window() {
+        println!("hide window")
+    }
+
+    #[tauri::command]
+    fn reload_window() {
+        println!("reload window")
+    }
 
     #[cfg(target_os = "macos")]
     app.set_activation_policy(ActivationPolicy::Accessory);
