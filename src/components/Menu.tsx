@@ -23,7 +23,7 @@ export default function Menu({
 			justifyContent: 'flex-end',
 			backgroundColor: 'black',
 		}}>
-		<Move size={16} color={"white"} css={{ WebkitAppRegion: 'drag' }} />
+		<Move size={16} color={"white"} data-tauri-drag-region />
 		{
 			onTriggerInfo &&
 			<Info size={16} color={"white"} onClick={onTriggerInfo} />
