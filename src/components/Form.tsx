@@ -1,6 +1,6 @@
 import { useRef } from "react"
 import { motion } from "framer-motion"
-import clippy from "./clippy-demo.gif";
+// import clippy from "./clippy-demo.gif";
 
 export default function Form({ handleQuery, thinking }: {
 	thinking: boolean,
@@ -25,8 +25,8 @@ export default function Form({ handleQuery, thinking }: {
 		onSubmit={(e) => {
 			e.preventDefault()
 			if (thinking) return
-			handleQuery(inputRef.current.value)
-			inputRef.current.value = ""
+			handleQuery(inputRef?.current?.value)
+			inputRef?.current?.value = ""
 		}}>
 		<input
 			autoFocus

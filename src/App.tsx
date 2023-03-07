@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom/client";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 import Menu from "./components/Menu";
@@ -85,8 +84,4 @@ const App = () => {
 	);
 };
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>
-);
+export default App
