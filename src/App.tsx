@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { invoke } from '@tauri-apps/api/tauri'
 
 import Menu from "./components/Menu";
 import Form from "./components/Form";
@@ -26,23 +27,19 @@ const App = () => {
 		let response
 
 		if (!lastChat) {
-			// TODO: ask bing
-			// response = await api.askBing(query)
-			// setLastChat(response)
+			response = await invoke('ask_bing', { query: query })
+			setLastChat(response)
 		} else {
-			// TODO: ask bing with last chat
-			// response = await api.askBing(query, lastChat)
+			response = await invoke('ask_bing', { query: query, lastChat: lastChat })
 		}
 
 		clearTimeout(startThinking)
 		setThinking(false)
 
-		// Set messages correctly
-
-		// setMessages([...messages,
-		// { type: "outgoing", data: query },
-		// { type: "incoming", data: response }
-		// ])
+		setMessages([...messages,
+		{ type: "outgoing", data: query },
+		{ type: "incoming", data: response }
+		])
 	}
 
 	const handleInfo = () => {

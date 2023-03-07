@@ -2,60 +2,68 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::{
-    ActivationPolicy, CustomMenuItem, GlobalShortcutManager, Manager, SystemTray, SystemTrayEvent,
-    SystemTrayMenu, WindowBuilder, WindowUrl,
+    ActivationPolicy, AppHandle, CustomMenuItem, GlobalShortcutManager, Manager, SystemTray,
+    SystemTrayEvent, SystemTrayMenu,
 };
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-// #[tauri::command]
-// fn greet(name: &str) -> String {
-//     format!("Hello, {}! You've been greeted from Rust!", name)
-// }
+#[tauri::command]
+fn ask_bing(query: &str) -> String {
+    format!("Hello, {}! You've been greeted from Rust!", query)
+}
+
+#[tauri::command]
+fn hide_window() {
+    println!("hide window")
+}
+
+#[tauri::command]
+fn reload_window() {
+    println!("reload window")
+}
+
+fn tray() -> SystemTray {
+    SystemTray::new().with_menu(
+        SystemTrayMenu::new()
+            .add_item(CustomMenuItem::new("clippy", "Clippy").accelerator("CmdOrCtrl+Shift+6"))
+            .add_item(CustomMenuItem::new("quit", "Quit").accelerator("CmdOrCtrl+Q")),
+    )
+}
+
+fn toggle_window(app: &AppHandle) {
+    if app.get_window("main").is_some() {
+        app.get_window("main")
+            .unwrap()
+            .hide()
+            .expect_err("Failed to hide Clippy");
+    } else {
+        app.get_window("main")
+            .unwrap()
+            .show()
+            .expect_err("Failed to show Clippy");
+    }
+}
 
 fn main() {
     #[allow(unused_mut)]
     let mut app = tauri::Builder::default()
         .setup(|_app| Ok(()))
-        .system_tray(
-            SystemTray::new().with_menu(
-                SystemTrayMenu::new()
-                    .add_item(
-                        CustomMenuItem::new("summon", "Clippy")
-                            .accelerator("CommandOrControl+Shift+6"),
-                    )
-                    .add_item(
-                        CustomMenuItem::new("quit", "Quit").accelerator("CommandOrControl+Q"),
-                    ),
-            ),
-        )
+        .system_tray(tray())
         .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::LeftClick {
                 position: _,
                 size: _,
                 ..
-            } => {
-                // stage::init(app);
-                // println!("Left click on tray icon");
-            }
+            } => toggle_window(app),
             SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-                "summon" => {
-                    // TODO: find out what's the best way to "store" preferences?
-                    if app.get_window("main").is_some() {
-                        app.get_window("main")
-                            .unwrap()
-                            .show()
-                            .expect_err("Failed to show Clippy");
-                    } else {
-                        std::process::exit(0);
-                    }
-                }
-                "quit" => {
-                    std::process::exit(0);
-                }
+                "clippy" => toggle_window(app),
+                "quit" => std::process::exit(0),
                 _ => {}
             },
             _ => {}
         })
+        .invoke_handler(tauri::generate_handler![ask_bing])
+        .invoke_handler(tauri::generate_handler![hide_window])
+        .invoke_handler(tauri::generate_handler![reload_window])
         .build(tauri::generate_context!())
         .expect("error while running tauri application");
 
@@ -66,10 +74,7 @@ fn main() {
         tauri::RunEvent::Ready => {
             _app_handle
                 .global_shortcut_manager()
-                // TODO: make keyboard shortcut customizable
-                .register("CmdOrCtrl+Shift+6", move || {
-                    // stage::init(&_app_handle);
-                })
+                .register("CmdOrCtrl+Shift+6", move || println!("Shortcut invoked!"))
                 .unwrap();
         }
         tauri::RunEvent::ExitRequested { api, .. } => {

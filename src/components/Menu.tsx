@@ -1,6 +1,7 @@
-import { Info, Settings, RefreshCw, Move } from "react-feather";
+import { ReactEventHandler } from "react";
 import { motion } from "framer-motion";
-import { ReactEventHandler, SyntheticEvent } from "react";
+import { invoke } from '@tauri-apps/api/tauri'
+import { Info, Settings, RefreshCw, Move } from "react-feather";
 
 export default function Menu({
 	onTriggerInfo,
@@ -9,6 +10,10 @@ export default function Menu({
 	onTriggerInfo?: ReactEventHandler<SVGElement>,
 	onTriggerSettings?: ReactEventHandler<SVGElement>
 }) {
+
+	const color = "white"
+	const size = 16
+
 	return <motion.nav layout
 		css={{
 			padding: 6,
@@ -23,14 +28,14 @@ export default function Menu({
 			justifyContent: 'flex-end',
 			backgroundColor: 'black',
 		}}>
-		<Move size={16} color={"white"} data-tauri-drag-region />
+		<Move size={size} color={color} data-tauri-drag-region />
 		{
 			onTriggerInfo &&
-			<Info size={16} color={"white"} onClick={onTriggerInfo} />
+			<Info size={size} color={color} onClick={onTriggerInfo} />
 		}
 		{
-			onTriggerSettings && <Settings size={16} color={"white"} onClick={onTriggerSettings} />
+			onTriggerSettings && <Settings size={size} color={color} onClick={onTriggerSettings} />
 		}
-		<RefreshCw size={16} color={"white"} onClick={() => console.log("refresh window")} />
+		<RefreshCw size={size} color={color} onClick={() => invoke('reload_window')} />
 	</motion.nav>
 }
