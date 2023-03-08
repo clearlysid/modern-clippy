@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { invoke } from '@tauri-apps/api/tauri'
+import { appWindow } from "@tauri-apps/api/window";
 
 import Menu from "./components/Menu";
 import Form from "./components/Form";
@@ -65,6 +66,20 @@ const App = () => {
 			setMessages([...currentMessages, response, quip])
 		}, 4000)
 	}
+
+	let unlisten;
+
+	(async () => {
+		unlisten = await appWindow.onFocusChanged(({ payload: focused }) => {
+			console.log('Focus changed, window is focused? ' + focused);
+			appWindow.hide()
+		})
+	}
+	)();
+
+	useEffect(() => {
+		return () => unlisten()
+	}, [])
 
 	return (
 		<motion.div

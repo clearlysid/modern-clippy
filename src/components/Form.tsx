@@ -60,7 +60,7 @@ export default function Form({ handleQuery, thinking }: {
 			⏎
 		</button>
 		<img
-			src={'./assets/clippy-demo.gif'}
+			src={'../assets/clippy-demo.gif'}
 			alt="clippy"
 			css={{
 				width: 100,
