@@ -11,7 +11,7 @@ use tauri::{
 fn ask_bing(query: &str) -> String {
     dotenv().ok();
 
-    let bing_cookie = std::env::var("BING_COOKIE").expect("BING_COOKIE must be set in '.env'.");
+    let _bing_cookie = std::env::var("BING_COOKIE").expect("BING_COOKIE must be set in '.env'.");
 
     return format!("Hello, {}! You've been greeted from Rust!", query);
 }
@@ -49,11 +49,6 @@ fn main() {
 
     fn toggle_window(app: &AppHandle) {
         if app.get_window("main").is_some() {
-            app.get_window("main")
-                .unwrap()
-                .hide()
-                .expect_err("Failed to hide Clippy");
-        } else {
             app.get_window("main")
                 .unwrap()
                 .show()
