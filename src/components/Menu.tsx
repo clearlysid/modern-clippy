@@ -1,6 +1,5 @@
 import { ReactEventHandler } from "react";
 import { motion } from "framer-motion";
-import { invoke } from '@tauri-apps/api/tauri'
 import { Info, Settings, RefreshCw, Move } from "react-feather";
 
 export default function Menu({
@@ -36,6 +35,7 @@ export default function Menu({
 		{
 			onTriggerSettings && <Settings size={size} color={color} onClick={onTriggerSettings} />
 		}
-		<RefreshCw size={size} color={color} onClick={() => invoke('reload_window')} />
+		{/* TODO: find a different way to "reset" the state of the app */}
+		<RefreshCw size={size} color={color} onClick={() => console.log("refresh")} />
 	</motion.nav>
 }

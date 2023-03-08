@@ -1,6 +1,6 @@
-import { invoke } from '@tauri-apps/api/tauri'
+import { appWindow } from '@tauri-apps/api/window';
 
 export default function Hide() {
-	return <div css={{ flex: 1 }} onClick={() => invoke('hide_window')} />
+	return <div css={{ flex: 1 }} onClick={() => appWindow.hide()} />
 }
 

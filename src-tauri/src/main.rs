@@ -3,7 +3,7 @@
 
 use dotenv::dotenv;
 use tauri::{
-    ActivationPolicy, AppHandle, CustomMenuItem, GlobalShortcutManager, Manager, SystemTray,
+    ActivationPolicy, AppHandle, CustomMenuItem, GlobalShortcutManager, Manager, Menu, SystemTray,
     SystemTrayEvent, SystemTrayMenu,
 };
 
@@ -11,7 +11,7 @@ use tauri::{
 fn ask_bing(query: &str) -> String {
     dotenv().ok();
 
-    let bing_cookie = std::env::var("BING_COOKIE").expect("BING_COOKIE must be set.");
+    let bing_cookie = std::env::var("BING_COOKIE").expect("BING_COOKIE must be set in '.env'.");
 
     return format!("Hello, {}! You've been greeted from Rust!", query);
 }
@@ -27,6 +27,7 @@ fn tray() -> SystemTray {
 fn main() {
     #[allow(unused_mut)]
     let mut app = tauri::Builder::default()
+        .menu(Menu::new())
         .setup(|_app| Ok(()))
         .system_tray(tray())
         .on_system_tray_event(|app, event| match event {
@@ -42,11 +43,7 @@ fn main() {
             },
             _ => {}
         })
-        .invoke_handler(tauri::generate_handler![
-            ask_bing,
-            hide_window,
-            reload_window
-        ])
+        .invoke_handler(tauri::generate_handler![ask_bing])
         .build(tauri::generate_context!())
         .expect("error while running tauri application");
 
@@ -62,16 +59,6 @@ fn main() {
                 .show()
                 .expect_err("Failed to show Clippy");
         }
-    }
-
-    #[tauri::command]
-    fn hide_window() {
-        println!("hide window")
-    }
-
-    #[tauri::command]
-    fn reload_window() {
-        println!("reload window")
     }
 
     #[cfg(target_os = "macos")]
