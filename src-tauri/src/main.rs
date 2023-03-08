@@ -30,14 +30,14 @@ fn main() {
         .menu(Menu::new())
         .setup(|_app| Ok(()))
         .system_tray(tray())
-        .on_system_tray_event(|app, event| match event {
+        .on_system_tray_event(|app_handle, event| match event {
             SystemTrayEvent::LeftClick {
                 position: _,
                 size: _,
                 ..
-            } => toggle_window(app),
+            } => toggle_window(&app_handle),
             SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-                "clippy" => toggle_window(app),
+                "clippy" => toggle_window(&app_handle),
                 "quit" => std::process::exit(0),
                 _ => {}
             },
@@ -47,12 +47,12 @@ fn main() {
         .build(tauri::generate_context!())
         .expect("error while running tauri application");
 
-    fn toggle_window(app: &AppHandle) {
-        if app.get_window("main").is_some() {
-            app.get_window("main")
-                .unwrap()
-                .show()
-                .expect_err("Failed to show Clippy");
+    fn toggle_window(app_handle: &AppHandle) {
+        let window = app_handle.get_window("main").unwrap();
+        if (window.is_visible().unwrap()) {
+            window.hide();
+        } else {
+            window.show();
         }
     }
 
@@ -61,9 +61,10 @@ fn main() {
 
     app.run(|_app_handle, event| match event {
         tauri::RunEvent::Ready => {
-            _app_handle
+            let app_handle = _app_handle.clone();
+            app_handle
                 .global_shortcut_manager()
-                .register("CmdOrCtrl+Shift+6", move || println!("Shortcut invoked!"))
+                .register("CmdOrCtrl+Shift+6", move || toggle_window(&app_handle))
                 .unwrap();
         }
         tauri::RunEvent::ExitRequested { api, .. } => {

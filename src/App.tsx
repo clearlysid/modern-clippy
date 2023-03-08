@@ -71,8 +71,9 @@ const App = () => {
 
 	(async () => {
 		unlisten = await appWindow.onFocusChanged(({ payload: focused }) => {
-			console.log('Focus changed, window is focused? ' + focused);
-			appWindow.hide()
+			if (appWindow.isVisible()) {
+				appWindow.hide()
+			}
 		})
 	}
 	)();
