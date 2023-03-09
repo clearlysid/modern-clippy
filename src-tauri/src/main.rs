@@ -9,12 +9,36 @@ use tauri::{
 };
 
 #[tauri::command]
-fn ask_bing(query: &str) -> String {
+async fn ask_bing(query: &str) -> Result<(), ()> {
     dotenv().ok();
-
     let _bing_cookie = std::env::var("BING_COOKIE").expect("BING_COOKIE must be set in '.env'.");
 
-    return format!("Hello, {}! You've been greeted from Rust!", query);
+    let mut bing = Bing::new("~/.config/bing-cookies.json").await.unwrap();
+
+    // send message
+    bing.send_msg(query).await.unwrap();
+
+    // receive message
+    let mut index = 0;
+
+    // loop until the chat is done
+    loop {
+        if bing.is_done() {
+            break;
+        }
+
+        let Some(answer) = bing.recv_text().await.unwrap() else{
+            continue;
+        };
+
+        // print the new part of the answer
+        if !answer.is_empty() {
+            println!("{}", utf8_slice::from(&answer, index));
+            index = utf8_slice::len(&answer);
+        }
+    }
+
+    return Ok(());
 }
 
 fn tray() -> SystemTray {
