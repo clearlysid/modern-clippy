@@ -13,9 +13,12 @@ async fn ask_bing(query: &str) -> Result<(), ()> {
     dotenv().ok();
     let _bing_cookie = std::env::var("BING_COOKIE").expect("BING_COOKIE must be set in '.env'.");
 
+    // This bing instance expects a path to a file that contains the cookies
+    // TODO: find a way to get it to expect just the cookie as a string
     let mut bing = Bing::new("~/.config/bing-cookies.json").await.unwrap();
 
-    // send message
+    // The below code is pasted from the binggpt example itself
+    // Lack of documentation means I don't understand how it works just yet
     bing.send_msg(query).await.unwrap();
 
     // receive message
@@ -38,9 +41,12 @@ async fn ask_bing(query: &str) -> Result<(), ()> {
         }
     }
 
+    // Need to return Ok(()) to prevent error
+    // TODO: return the structure answer instead of just Ok(())
     return Ok(());
 }
 
+// Set up the system tray
 fn tray() -> SystemTray {
     SystemTray::new().with_menu(
         SystemTrayMenu::new()
@@ -50,6 +56,7 @@ fn tray() -> SystemTray {
 }
 
 fn main() {
+    // Create the app
     #[allow(unused_mut)]
     let mut app = tauri::Builder::default()
         .menu(Menu::new())
@@ -68,6 +75,7 @@ fn main() {
         .build(tauri::generate_context!())
         .expect("error while running tauri application");
 
+    // Function to toggle the window visibility
     fn toggle_window(app_handle: &AppHandle) {
         let window = &app_handle.get_window("main").unwrap();
 
@@ -81,6 +89,7 @@ fn main() {
     #[cfg(target_os = "macos")]
     app.set_activation_policy(ActivationPolicy::Accessory);
 
+    // Register the global shortcut and handle exit event
     app.run(|_app_handle, event| match event {
         tauri::RunEvent::Ready => {
             let app_handle = _app_handle.clone();
