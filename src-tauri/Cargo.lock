@@ -1628,7 +1628,7 @@ dependencies = [
 
 [[package]]
 name = "modern-clippy"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "binggpt",
  "dotenv",
