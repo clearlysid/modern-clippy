@@ -67,20 +67,20 @@ const App = () => {
 		}, 4000)
 	}
 
-	let unlisten;
+	// let unlisten;
 
-	(async () => {
-		unlisten = await appWindow.onFocusChanged(({ payload: focused }) => {
-			if (appWindow.isVisible()) {
-				appWindow.hide()
-			}
-		})
-	}
-	)();
+	// (async () => {
+	// 	unlisten = await appWindow.onFocusChanged(({ payload: focused }) => {
+	// 		if (appWindow.isVisible()) {
+	// 			appWindow.hide()
+	// 		}
+	// 	})
+	// }
+	// )();
 
-	useEffect(() => {
-		return () => unlisten()
-	}, [])
+	// useEffect(() => {
+	// 	return () => unlisten()
+	// }, [])
 
 	return (
 		<motion.div

@@ -31,11 +31,7 @@ fn main() {
         .setup(|_app| Ok(()))
         .system_tray(tray())
         .on_system_tray_event(|app_handle, event| match event {
-            SystemTrayEvent::LeftClick {
-                position: _,
-                size: _,
-                ..
-            } => toggle_window(&app_handle),
+            SystemTrayEvent::LeftClick { .. } => toggle_window(&app_handle),
             SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
                 "clippy" => toggle_window(&app_handle),
                 "quit" => std::process::exit(0),
@@ -48,11 +44,12 @@ fn main() {
         .expect("error while running tauri application");
 
     fn toggle_window(app_handle: &AppHandle) {
-        let window = app_handle.get_window("main").unwrap();
-        if (window.is_visible().unwrap()) {
-            window.hide();
+        let window = &app_handle.get_window("main").unwrap();
+
+        if window.is_visible().unwrap() {
+            window.hide().expect("Failed to hide window");
         } else {
-            window.show();
+            window.show().expect("Failed to show window");
         }
     }
 
