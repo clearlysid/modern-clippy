@@ -29,7 +29,8 @@ const App = () => {
 
 		if (!lastChat) {
 			response = await invoke('ask_bing', { query: query })
-			setLastChat(response)
+			console.log(response)
+			// setLastChat(response)
 		} else {
 			response = await invoke('ask_bing', { query: query, lastChat: lastChat })
 		}
@@ -37,10 +38,12 @@ const App = () => {
 		clearTimeout(startThinking)
 		setThinking(false)
 
-		setMessages([...messages,
-		{ type: "outgoing", data: query },
-		{ type: "incoming", data: response }
-		])
+		console.log(response)
+
+		// setMessages([...messages,
+		// { type: "outgoing", data: query },
+		// { type: "incoming", data: response }
+		// ])
 	}
 
 	const handleInfo = () => {
@@ -96,7 +99,10 @@ const App = () => {
 			<Hide />
 			<Chat messages={messages} thinking={thinking} />
 			<Form handleQuery={handleQuery} thinking={thinking} />
-			<Menu onTriggerInfo={handleInfo} />
+			<Menu onTriggerInfo={handleInfo} onTriggerReset={() => {
+				setMessages(null)
+				setLastChat(null)
+			}} />
 		</motion.div>
 	);
 };

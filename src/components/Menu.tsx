@@ -4,10 +4,12 @@ import { Info, Settings, RefreshCw, Move } from "react-feather";
 
 export default function Menu({
 	onTriggerInfo,
-	onTriggerSettings
+	onTriggerSettings,
+	onTriggerReset
 }: {
 	onTriggerInfo?: ReactEventHandler<SVGElement>,
-	onTriggerSettings?: ReactEventHandler<SVGElement>
+	onTriggerSettings?: ReactEventHandler<SVGElement>,
+	onTriggerReset?: ReactEventHandler<SVGElement>
 }) {
 
 	const color = "white"
@@ -28,14 +30,8 @@ export default function Menu({
 			backgroundColor: 'black',
 		}}>
 		<Move size={size} color={color} data-tauri-drag-region />
-		{
-			onTriggerInfo &&
-			<Info size={size} color={color} onClick={onTriggerInfo} />
-		}
-		{
-			onTriggerSettings && <Settings size={size} color={color} onClick={onTriggerSettings} />
-		}
-		{/* TODO: find a different way to "reset" the state of the app */}
-		<RefreshCw size={size} color={color} onClick={() => console.log("refresh")} />
+		<Info size={size} color={color} onClick={onTriggerInfo} />
+		<Settings size={size} color={color} onClick={onTriggerSettings} />
+		<RefreshCw size={size} color={color} onClick={onTriggerReset} />
 	</motion.nav>
 }

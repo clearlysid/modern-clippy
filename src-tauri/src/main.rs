@@ -80,7 +80,7 @@ fn main() {
         let window = &app_handle.get_window("main").unwrap();
 
         if window.is_visible().unwrap() {
-            window.hide().expect("Failed to hide window");
+            window.hide().expect("Failed to hide window")
         } else {
             window.show().expect("Failed to show window");
         }
