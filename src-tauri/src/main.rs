@@ -14,18 +14,10 @@ async fn ask_bing(query: &str) -> Result<String, ()> {
     bing.send_msg(query).await.unwrap();
 
     let mut answer = String::new();
-    let mut index = 0;
 
-    loop {
-        if bing.is_done() {
-            break;
-        }
-
+    while !bing.is_done() {
         if let Some(text) = bing.recv_text_only().await.unwrap() {
-            answer.push_str(utf8_slice::from(&text, index));
-            index = utf8_slice::len(&text);
-        } else {
-            continue;
+            answer = text;
         }
     }
 
