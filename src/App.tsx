@@ -29,7 +29,6 @@ const App = () => {
 
 		if (!lastChat) {
 			response = await invoke('ask_bing', { query: query })
-			console.log(response)
 			// setLastChat(response)
 		} else {
 			response = await invoke('ask_bing', { query: query, lastChat: lastChat })
@@ -40,10 +39,10 @@ const App = () => {
 
 		console.log(response)
 
-		// setMessages([...messages,
-		// { type: "outgoing", data: query },
-		// { type: "incoming", data: response }
-		// ])
+		setMessages([...messages,
+		{ type: "outgoing", data: query },
+		{ type: "incoming", data: response }
+		])
 	}
 
 	const handleInfo = () => {
