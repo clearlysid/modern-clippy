@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom/client";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { invoke } from '@tauri-apps/api/tauri'
+import { appWindow } from "@tauri-apps/api/window";
 
 import Menu from "./components/Menu";
 import Form from "./components/Form";
@@ -27,14 +28,16 @@ const App = () => {
 		let response
 
 		if (!lastChat) {
-			response = await api.askBing(query)
-			setLastChat(response)
+			response = await invoke('ask_bing', { query: query })
+			// setLastChat(response)
 		} else {
-			response = await api.askBing(query, lastChat)
+			response = await invoke('ask_bing', { query: query, lastChat: lastChat })
 		}
 
 		clearTimeout(startThinking)
 		setThinking(false)
+
+		console.log(response)
 
 		setMessages([...messages,
 		{ type: "outgoing", data: query },
@@ -66,6 +69,21 @@ const App = () => {
 		}, 4000)
 	}
 
+	// let unlisten;
+
+	// (async () => {
+	// 	unlisten = await appWindow.onFocusChanged(({ payload: focused }) => {
+	// 		if (appWindow.isVisible()) {
+	// 			appWindow.hide()
+	// 		}
+	// 	})
+	// }
+	// )();
+
+	// useEffect(() => {
+	// 	return () => unlisten()
+	// }, [])
+
 	return (
 		<motion.div
 			layout
@@ -80,13 +98,12 @@ const App = () => {
 			<Hide />
 			<Chat messages={messages} thinking={thinking} />
 			<Form handleQuery={handleQuery} thinking={thinking} />
-			<Menu onTriggerInfo={handleInfo} />
+			<Menu onTriggerInfo={handleInfo} onTriggerReset={() => {
+				setMessages(null)
+				setLastChat(null)
+			}} />
 		</motion.div>
 	);
 };
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>
-);
+export default App

@@ -41,7 +41,7 @@ export default function Text({
 			exit={{ opacity: 0, scale: 0.8, y: 100, x: incoming ? 20 : -20 }}
 			transition={{
 				layout: {
-					duration: index * 0.05,
+					duration: index && index * 0.05,
 					type: "spring",
 				}
 			}}

@@ -1,0 +1,28 @@
+[package]
+name = "modern-clippy"
+version = "0.1.0"
+description = "Not the Clippy we need, but the Clippy we deserve."
+authors = ["Siddharth Jha"]
+license = "MIT"
+repository = "https://www.github.com/clearlysid/modern-clippy"
+edition = "2021"
+rust-version = "1.65"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "1.2", features = [] }
+
+[dependencies]
+tauri = { version = "1.2", features = ["api-all", "icon-png", "macos-private-api", "shell-open-api", "system-tray"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+dotenv = "0.15.0"
+utf8_slice = "1.0.0"
+tokio = { version = "1.26.0", features = ["full"] }
+binggpt = "0.1.5"
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
