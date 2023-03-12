@@ -2,7 +2,6 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use binggpt::Bing;
-use dotenv::dotenv;
 use tauri::{
     ActivationPolicy, AppHandle, CustomMenuItem, GlobalShortcutManager, Manager, Menu, SystemTray,
     SystemTrayEvent, SystemTrayMenu,
@@ -10,9 +9,6 @@ use tauri::{
 
 #[tauri::command]
 async fn ask_bing(query: &str) -> Result<String, ()> {
-    dotenv().ok();
-    let _bing_cookie = std::env::var("BING_COOKIE").expect("BING_COOKIE must be set in '.env'.");
-
     let mut bing = Bing::new("~/.config/bing-cookies.json").await.unwrap();
 
     bing.send_msg(query).await.unwrap();
@@ -25,7 +21,7 @@ async fn ask_bing(query: &str) -> Result<String, ()> {
             break;
         }
 
-        if let Some(text) = bing.recv_text().await.unwrap() {
+        if let Some(text) = bing.recv_text_only().await.unwrap() {
             answer.push_str(utf8_slice::from(&text, index));
             index = utf8_slice::len(&text);
         } else {
@@ -33,11 +29,9 @@ async fn ask_bing(query: &str) -> Result<String, ()> {
         }
     }
 
-    println!("{}", answer);
     return Ok(answer);
 }
 
-// Set up the system tray
 fn tray() -> SystemTray {
     SystemTray::new().with_menu(
         SystemTrayMenu::new()
@@ -47,7 +41,6 @@ fn tray() -> SystemTray {
 }
 
 fn main() {
-    // Create the app
     #[allow(unused_mut)]
     let mut app = tauri::Builder::default()
         .menu(Menu::new())
@@ -64,9 +57,8 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![ask_bing])
         .build(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .expect("Error while building Clippy");
 
-    // Function to toggle the window visibility
     fn toggle_window(app_handle: &AppHandle) {
         let window = &app_handle.get_window("main").unwrap();
 
@@ -80,7 +72,6 @@ fn main() {
     #[cfg(target_os = "macos")]
     app.set_activation_policy(ActivationPolicy::Accessory);
 
-    // Register the global shortcut and handle exit event
     app.run(|_app_handle, event| match event {
         tauri::RunEvent::Ready => {
             let app_handle = _app_handle.clone();
