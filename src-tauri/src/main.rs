@@ -69,7 +69,7 @@ fn main() {
             let app_handle = _app_handle.clone();
             app_handle
                 .global_shortcut_manager()
-                .register("CmdOrCtrl+Shift+6", move || toggle_window(&app_handle))
+                .register("CmdOrCtrl+`", move || toggle_window(&app_handle))
                 .unwrap();
         }
         tauri::RunEvent::ExitRequested { api, .. } => {
