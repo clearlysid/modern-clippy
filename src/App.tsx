@@ -11,6 +11,7 @@ import initialTexts from "./components/initialTexts";
 
 import type { ChatMessage } from "./types";
 import type { BingResponse } from "./types";
+import Clippy from "./components/Clippy";
 
 const App = () => {
 
@@ -69,20 +70,18 @@ const App = () => {
 		}, 4000)
 	}
 
-	// let unlisten;
+	let unlisten;
 
-	// (async () => {
-	// 	unlisten = await appWindow.onFocusChanged(({ payload: focused }) => {
-	// 		if (appWindow.isVisible()) {
-	// 			appWindow.hide()
-	// 		}
-	// 	})
-	// }
-	// )();
+	(async () => {
+		unlisten = await appWindow.onFocusChanged(({ payload: focused }) => {
+			focused ? appWindow.show() : appWindow.hide()
+		})
+	}
+	)();
 
-	// useEffect(() => {
-	// 	return () => unlisten()
-	// }, [])
+	useEffect(() => {
+		return () => unlisten()
+	}, [])
 
 	return (
 		<motion.div
@@ -96,8 +95,9 @@ const App = () => {
 				flexDirection: "column",
 			}}>
 			<Hide />
-			<Chat messages={messages} thinking={thinking} />
+			<Chat messages={messages} />
 			<Form handleQuery={handleQuery} thinking={thinking} />
+			<Clippy thinking={thinking} />
 			<Menu onTriggerInfo={handleInfo} onTriggerReset={() => {
 				setMessages(null)
 				setLastChat(null)

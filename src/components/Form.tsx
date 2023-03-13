@@ -59,14 +59,5 @@ export default function Form({ handleQuery, thinking }: {
 			}}>
 			⏎
 		</button>
-		<img
-			src={'../clippy-demo.gif'}
-			alt="clippy"
-			css={{
-				width: 100,
-				position: "absolute",
-				right: 0,
-				bottom: 36
-			}} />
 	</motion.form>
 }

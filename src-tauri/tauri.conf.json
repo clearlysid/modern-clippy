@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "modern-clippy",
-    "version": "0.0.0"
+    "version": "../package.json"
   },
   "tauri": {
     "allowlist": {
@@ -39,8 +39,9 @@
         "width": 800,
         "height": 600,
         "transparent": true,
-        "visible": true,
-        "center": true,
+        "visible": false,
+        "x": 460,
+        "y": 0,
         "resizable": false,
         "alwaysOnTop": true,
         "focus": true,

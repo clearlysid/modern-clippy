@@ -1,4 +1,4 @@
-// Prevents additional console window on Windows in release, DO NOT REMOVE!!
+// Prevents additional console window on Windows in release.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use binggpt::Bing;
@@ -6,6 +6,9 @@ use tauri::{
     ActivationPolicy, AppHandle, CustomMenuItem, GlobalShortcutManager, Manager, Menu, SystemTray,
     SystemTrayEvent, SystemTrayMenu,
 };
+
+// TODO: make this changeable in settings
+const GLOBAL_SHORTCUT: &str = "CmdOrCtrl+`";
 
 #[tauri::command]
 async fn ask_bing(query: &str) -> Result<String, ()> {
@@ -27,7 +30,7 @@ async fn ask_bing(query: &str) -> Result<String, ()> {
 fn tray() -> SystemTray {
     SystemTray::new().with_menu(
         SystemTrayMenu::new()
-            .add_item(CustomMenuItem::new("clippy", "Clippy").accelerator("CmdOrCtrl+Shift+6"))
+            .add_item(CustomMenuItem::new("clippy", "Clippy").accelerator(GLOBAL_SHORTCUT))
             .add_item(CustomMenuItem::new("quit", "Quit").accelerator("CmdOrCtrl+Q")),
     )
 }
@@ -36,7 +39,14 @@ fn main() {
     #[allow(unused_mut)]
     let mut app = tauri::Builder::default()
         .menu(Menu::new())
-        .setup(|_app| Ok(()))
+        .setup(|_app| {
+            #[cfg(debug_assertions)] // only include this code on debug builds
+            {
+                let window = _app.get_window("main").unwrap();
+                window.open_devtools();
+            }
+            Ok(())
+        })
         .system_tray(tray())
         .on_system_tray_event(|app_handle, event| match event {
             SystemTrayEvent::LeftClick { .. } => toggle_window(&app_handle),
@@ -52,12 +62,18 @@ fn main() {
         .expect("Error while building Clippy");
 
     fn toggle_window(app_handle: &AppHandle) {
-        let window = &app_handle.get_window("main").unwrap();
-
-        if window.is_visible().unwrap() {
-            window.hide().expect("Failed to hide window")
+        if let Some(window) = app_handle.get_window("main") {
+            match window.is_visible() {
+                Ok(true) => window
+                    .hide()
+                    .unwrap_or_else(|e| println!("Failed to hide window: {}", e)),
+                Ok(false) => window
+                    .show()
+                    .unwrap_or_else(|e| println!("Failed to show window: {}", e)),
+                Err(e) => println!("Failed to check window visibility: {}", e),
+            }
         } else {
-            window.show().expect("Failed to show window");
+            println!("Window not found");
         }
     }
 
@@ -69,7 +85,7 @@ fn main() {
             let app_handle = _app_handle.clone();
             app_handle
                 .global_shortcut_manager()
-                .register("CmdOrCtrl+`", move || toggle_window(&app_handle))
+                .register(GLOBAL_SHORTCUT, move || toggle_window(&app_handle))
                 .unwrap();
         }
         tauri::RunEvent::ExitRequested { api, .. } => {
